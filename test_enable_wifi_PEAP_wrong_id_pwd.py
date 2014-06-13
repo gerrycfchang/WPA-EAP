@@ -2,7 +2,7 @@ from gaiatest import GaiaTestCase
 from gaiatest.apps.settings.app import Settings
 from marionette.by import By
 import sys
-
+import time
 
 class TestWpaWlan(GaiaTestCase):
        
@@ -25,16 +25,16 @@ class TestWpaWlan(GaiaTestCase):
         import WPA
         wpaObj = WPA.WpaEap(self.marionette)
         wpaObj.selectWPANetwork('TPE_QA')
-        wpaObj.selectEAPMethod('TTLS')
-        wpaObj.inputIdentity('sqa')
-        wpaObj.inputPassword('password')
+        wpaObj.selectEAPMethod('PEAP')
+        wpaObj.inputIdentity('test')
+        wpaObj.inputPassword('test')
         wpaObj.join()
         
-        networkName = wpaObj.getActiveNetworkName()        
-        self.assertEqual(networkName, 'TPE_QA')
+        #import pdb; pdb.set_trace()
+        time.sleep(3)
+        networkName = wpaObj.getActiveNetworkName()
+        self.assertNotEqual(networkName, 'TPE_QA')
         
         networkStatus = wpaObj.getActiveNetworkStatus()
-        self.assertEqual(networkStatus, 'Connected')
-                
-        #forget wifi network
-        wpaObj.forgetNetwork('TPE_QA')
+        self.assertNotEqual(networkStatus, 'Connected')                
+        

@@ -4,7 +4,7 @@ from marionette.by import By
 import sys
 
 
-class TestWifi(GaiaTestCase):
+class TestWpaWlan(GaiaTestCase):
        
     
     def setUp(self):

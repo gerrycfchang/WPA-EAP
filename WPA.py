@@ -2,7 +2,6 @@ from marionette.by import By
 from gaiatest.apps.base import Base
 import time
 
-
 class WpaEap(Base):
     def selectWPANetwork(self,networkName):
         # select WPA-EAP network from available networks        
@@ -74,18 +73,32 @@ class WpaEap(Base):
         ok_button = self.wait_for_element_present(*ok_locator)
         ok_button.tap()
         
-        time.sleep(2)
+        time.sleep(3)
         
     def getActiveNetworkName(self):
+        #import pdb;pdb.set_trace()
         _connected_message_locator_network = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
-        self.wait_for_element_present(*_connected_message_locator_network)
-        _connected_network_name = self.marionette.find_element(*_connected_message_locator_network)
-        return _connected_network_name.text
+        activeNetwork=''
+        try:
+            self.wait_for_element_present(*_connected_message_locator_network)
+            _connected_network_name = self.marionette.find_element(*_connected_message_locator_network)
+            activeNetwork =  _connected_network_name.text
+        except Exception:
+            activeNetwork = 'None'
+            
+        return activeNetwork
+        
     
     def getActiveNetworkStatus(self):
-        _connected_message_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
-        _connected_network_status = self.marionette.find_element(*_connected_message_locator)
-        return _connected_network_status.text
+        activeNetworkStatus = ''
+        try:
+            _connected_message_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
+            _connected_network_status = self.marionette.find_element(*_connected_message_locator)
+            activeNetworkStatus = _connected_network_status.text
+        except Exception:            
+            activeNetworkStatus = 'N/A'
+                
+        return activeNetworkStatus
         
     def forgetNetwork(self,networkName):
         #forget wifi network
