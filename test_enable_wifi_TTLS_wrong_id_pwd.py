@@ -31,7 +31,7 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.join()
         
         #import pdb; pdb.set_trace()
-        time.sleep(3)
+        time.sleep(5)
         networkName = wpaObj.getActiveNetworkName()
         self.assertNotEqual(networkName, 'TPE_QA')
         
