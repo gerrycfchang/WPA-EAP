@@ -18,7 +18,7 @@ class WpaEap(Base):
         #switch to frame
         self.marionette.switch_to_frame()
         
-        #select PEAP
+        #select EAP
         options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
         
         for li in options:
@@ -109,7 +109,4 @@ class WpaEap(Base):
         _forget_network_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="forget"]')
         self.wait_for_element_displayed(*_forget_network_locator)
         self.wait_for_element_present(*_forget_network_locator).tap()
-        
-        
-         
     
