@@ -4,8 +4,7 @@ from marionette.by import By
 import sys
 import time
 
-class TestWpaWlan(GaiaTestCase):
-       
+class TestWpaWlan(GaiaTestCase):       
     
     def setUp(self):
         GaiaTestCase.setUp(self)  
@@ -30,12 +29,10 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.inputIdentity('test')
         wpaObj.inputPassword('test')
         wpaObj.join()
-        
-        #import pdb; pdb.set_trace()
         time.sleep(5)
+        
         networkName = wpaObj.getActiveNetworkName()
         self.assertNotEqual(networkName, 'TPE_QA')
         
         networkStatus = wpaObj.getActiveNetworkStatus()
-        self.assertNotEqual(networkStatus, 'Connected')                
-        
+        self.assertNotEqual(networkStatus, 'Connected')

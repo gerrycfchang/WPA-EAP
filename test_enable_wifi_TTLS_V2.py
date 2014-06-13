@@ -3,10 +3,8 @@ from gaiatest.apps.settings.app import Settings
 from marionette.by import By
 import sys
 
-
 class TestWpaWlan(GaiaTestCase):
-       
-    
+   
     def setUp(self):
         GaiaTestCase.setUp(self)  
         sys.path.append("./")          

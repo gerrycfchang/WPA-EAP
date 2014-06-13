@@ -4,8 +4,7 @@ from gaiatest.apps.settings.app import Settings
 from marionette.by import By
 import sys
 
-class TestWpaWlan(GaiaTestCase):
-       
+class TestWpaWlan(GaiaTestCase):       
     
     def setUp(self):
         GaiaTestCase.setUp(self)
@@ -20,8 +19,7 @@ class TestWpaWlan(GaiaTestCase):
         
         checkbox = self.marionette.find_element(*_wifi_enabled_checkbox_locator)
         if not checkbox.is_selected():
-            wifiObj.enable_wifi()
-        
+            wifiObj.enable_wifi()        
        
         import WPA
         wpaObj = WPA.WpaEap(self.marionette)
@@ -30,8 +28,7 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.choosePhase2Auth('MSCHAP V2')
         wpaObj.inputIdentity('sqa')
         wpaObj.inputPassword('password')
-        wpaObj.join()
-                
+        wpaObj.join()                
       
         networkName = wpaObj.getActiveNetworkName()        
         self.assertEqual(networkName, 'TPE_QA')
