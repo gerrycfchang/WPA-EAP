@@ -29,7 +29,7 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.inputIdentity('test')
         wpaObj.inputPassword('test')
         wpaObj.join()
-        time.sleep(7)
+        #time.sleep(7)
         
         #networkName = wpaObj.getActiveNetworkName()
         #self.assertNotEqual(networkName, 'TPE_QA')

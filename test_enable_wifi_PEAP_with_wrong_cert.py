@@ -25,8 +25,9 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj = WPA.WpaEap(self.marionette)
         wpaObj.selectWPANetwork('TPE_QA')
         wpaObj.selectEAPMethod('PEAP')
-        wpaObj.inputIdentity('test')
-        wpaObj.inputPassword('test')
+        wpaObj.inputIdentity('sqa')
+        wpaObj.inputPassword('password')
+        wpaObj.selectServerCertificate('gogogo')
         wpaObj.join()
         #time.sleep(10)
         
