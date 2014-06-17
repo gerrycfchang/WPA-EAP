@@ -28,11 +28,7 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.choosePhase2Auth('MSCHAP V2')
         wpaObj.inputIdentity('test')
         wpaObj.inputPassword('test')
-        wpaObj.join()
-        #time.sleep(7)
-        
-        #networkName = wpaObj.getActiveNetworkName()
-        #self.assertNotEqual(networkName, 'TPE_QA')
+        wpaObj.join()        
         
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertNotEqual(networkStatus, 'Connected')

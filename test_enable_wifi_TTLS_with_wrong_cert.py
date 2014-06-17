@@ -29,10 +29,6 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.inputPassword('password')
         wpaObj.selectServerCertificate('gogogo')
         wpaObj.join()        
-        #time.sleep(10)
-        
-        #networkName = wpaObj.getActiveNetworkName()
-        #self.assertNotEqual(networkName, 'TPE_QA')
-        
+                
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertNotEqual(networkStatus, 'Connected')
