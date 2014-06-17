@@ -97,8 +97,32 @@ class WpaEap(Base):
             activeNetworkStatus = _connected_network_status.text
         except Exception:            
             activeNetworkStatus = 'N/A'
-                
+
+        #_test_status_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small[data-l10n-id="shortStatus-connected"]')
+        #_connected_network_status = self.marionette.find_element(*_test_status_locator)
+        #print _connected_network_status.text
         return activeNetworkStatus
+        
+    def selectServerCertificate(self, certName):
+        _server_cert_locator = (By.CSS_SELECTOR, 'p[data-l10n-id="server-certificate"]+span[class="button icon icon-dialog"]')
+        self.wait_for_element_displayed(*_server_cert_locator)
+        self.wait_for_element_present(*_server_cert_locator).tap()
+        
+        self.marionette.switch_to_frame()
+        
+        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
+        
+        for li in options:
+            if li.text == '%s' % certName:
+                li.tap()
+                break
+        
+        #click OK
+        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
+        _ok_button_eap = self.wait_for_element_present(*_ok_select_auth)        
+        _ok_button_eap.tap()
+        
+        self.apps.switch_to_displayed_app()   
         
     def forgetNetwork(self,networkName):
         #forget wifi network

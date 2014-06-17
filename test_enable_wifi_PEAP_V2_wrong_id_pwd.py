@@ -29,10 +29,10 @@ class TestWpaWlan(GaiaTestCase):
         wpaObj.inputIdentity('test')
         wpaObj.inputPassword('test')
         wpaObj.join()
-        time.sleep(5)
+        time.sleep(7)
         
-        networkName = wpaObj.getActiveNetworkName()
-        self.assertNotEqual(networkName, 'TPE_QA')
+        #networkName = wpaObj.getActiveNetworkName()
+        #self.assertNotEqual(networkName, 'TPE_QA')
         
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertNotEqual(networkStatus, 'Connected')
