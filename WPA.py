@@ -112,10 +112,14 @@ class WpaEap(Base):
         
         options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
         
+        certTap = False
         for li in options:
             if li.text == '%s' % certName:
                 li.tap()
+                certTap = True
                 break
+        if certTap == False:
+            raise Exception("No Server Certificate is selected.")
         
         #click OK
         _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
