@@ -18,43 +18,20 @@ class WpaEap(Base):
         #switch to frame
         self.marionette.switch_to_frame()
         
-        #select EAP
-        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
-        
-        for li in options:
-            if li.text == '%s' % eapName:
-                li.tap()
-                break
-        
-        #click OK
-        _ok_select_eap = (By.CSS_SELECTOR, 'button.value-option-confirm')
-        _ok_button_eap = self.wait_for_element_present(*_ok_select_eap)        
-        _ok_button_eap.tap()
-        
+        self.selectOptions(eapName)
+       
         self.apps.switch_to_displayed_app()   
         
-    def choosePhase2Auth(self,method):
-        #import pdb; pdb.set_trace()
+    def choosePhase2Auth(self,method):        
         _select_phase_2_auth = (By.CSS_SELECTOR, 'p[data-l10n-id="auth-phase2"]+span[class="button icon icon-dialog"]')
         self.wait_for_element_displayed(*_select_phase_2_auth)
         self.wait_for_element_present(*_select_phase_2_auth).tap()
         
         self.marionette.switch_to_frame()
         
-        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
+        self.selectOptions(method)
         
-        for li in options:
-            if li.text == '%s' % method:
-                li.tap()
-                break
-        
-        #click OK
-        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
-        _ok_button_eap = self.wait_for_element_present(*_ok_select_auth)        
-        _ok_button_eap.tap()
-        
-        self.apps.switch_to_displayed_app()   
-        
+        self.apps.switch_to_displayed_app()           
     
     def inputIdentity(self,identityName):
         #input identity        
@@ -97,10 +74,7 @@ class WpaEap(Base):
             activeNetworkStatus = _connected_network_status.text
         except Exception:            
             activeNetworkStatus = 'N/A'
-
-        #_test_status_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small[data-l10n-id="shortStatus-connected"]')
-        #_connected_network_status = self.marionette.find_element(*_test_status_locator)
-        #print _connected_network_status.text
+        
         return activeNetworkStatus
         
     def selectServerCertificate(self, certName):
@@ -110,21 +84,7 @@ class WpaEap(Base):
         
         self.marionette.switch_to_frame()
         
-        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
-        
-        certTap = False
-        for li in options:
-            if li.text == '%s' % certName:
-                li.tap()
-                certTap = True
-                break
-        if certTap == False:
-            raise Exception("No Server Certificate is selected.")
-        
-        #click OK
-        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
-        _ok_button_eap = self.wait_for_element_present(*_ok_select_auth)        
-        _ok_button_eap.tap()
+        self.selectOptions(certName)
         
         self.apps.switch_to_displayed_app()   
         
@@ -137,4 +97,22 @@ class WpaEap(Base):
         _forget_network_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="forget"]')
         self.wait_for_element_displayed(*_forget_network_locator)
         self.wait_for_element_present(*_forget_network_locator).tap()
+        
+    def selectOptions(self,optionName):
+        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
+        
+        certTap = False
+        for li in options:
+            if li.text == '%s' % optionName:
+                li.tap()
+                certTap = True
+                break
+        if certTap == False:
+            errorMsg = '\"' + optionName + '\" is not found.'
+            raise Exception(errorMsg)
+        
+        #click OK
+        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
+        _ok_button_eap = self.wait_for_element_present(*_ok_select_auth)        
+        _ok_button_eap.tap()
     
