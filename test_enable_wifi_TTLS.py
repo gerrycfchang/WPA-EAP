@@ -7,7 +7,8 @@ class TestWpaWlan(GaiaTestCase):
     
     def setUp(self):
         GaiaTestCase.setUp(self)  
-        sys.path.append("./")          
+        sys.path.append("./")
+        sys.path.append("./tests/functional/WPA-EAP")
 
     def test_enable_wifi(self):
         settings = Settings(self.marionette)

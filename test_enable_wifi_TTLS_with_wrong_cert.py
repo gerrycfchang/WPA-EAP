@@ -2,13 +2,13 @@ from gaiatest import GaiaTestCase
 from gaiatest.apps.settings.app import Settings
 from marionette.by import By
 import sys
-import time
 
 class TestWpaWlan(GaiaTestCase):       
     
     def setUp(self):
         GaiaTestCase.setUp(self)  
-        sys.path.append("./")          
+        sys.path.append("./")
+        sys.path.append("./tests/functional/WPA-EAP")  
 
     def test_enable_wifi(self):
         settings = Settings(self.marionette)

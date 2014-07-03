@@ -50,10 +50,9 @@ class WpaEap(Base):
         ok_button = self.wait_for_element_present(*ok_locator)
         ok_button.tap()
         
-        time.sleep(3)
+        time.sleep(6)
         
-    def getActiveNetworkName(self):
-        #import pdb;pdb.set_trace()
+    def getActiveNetworkName(self):        
         _connected_message_locator_network = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         activeNetwork=''
         try:
@@ -81,7 +80,7 @@ class WpaEap(Base):
         _server_cert_locator = (By.CSS_SELECTOR, 'p[data-l10n-id="server-certificate"]+span[class="button icon icon-dialog"]')
         self.wait_for_element_displayed(*_server_cert_locator)
         self.wait_for_element_present(*_server_cert_locator).tap()
-        
+               
         self.marionette.switch_to_frame()
         
         self.selectOptions(certName)
