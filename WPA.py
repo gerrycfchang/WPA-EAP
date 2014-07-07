@@ -5,15 +5,15 @@ import time
 class WpaEap(Base):
     def selectWPANetwork(self,networkName):
         # select WPA-EAP network from available networks        
-        this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)
-        preferedNetwork = self.wait_for_element_present(*this_network_locator)
-        preferedNetwork.tap()
+        this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)        
+        self.wait_for_element_displayed(*this_network_locator)
+        self.marionette.find_element(*this_network_locator).tap()        
         
     def selectEAPMethod(self,eapName):
         # locate eap first
         _select_eap_locator = (By.CSS_SELECTOR, 'span[class="button icon icon-dialog"]')
-        self.wait_for_element_displayed(*_select_eap_locator)
-        self.wait_for_element_present(*_select_eap_locator).tap()
+        self.wait_for_element_displayed(*_select_eap_locator)        
+        self.marionette.find_element(*_select_eap_locator).tap()        
         
         #switch to frame
         self.marionette.switch_to_frame()
@@ -25,7 +25,7 @@ class WpaEap(Base):
     def choosePhase2Auth(self,method):        
         _select_phase_2_auth = (By.CSS_SELECTOR, 'p[data-l10n-id="auth-phase2"]+span[class="button icon icon-dialog"]')
         self.wait_for_element_displayed(*_select_phase_2_auth)
-        self.wait_for_element_present(*_select_phase_2_auth).tap()
+        self.marionette.find_element(*_select_phase_2_auth).tap()        
         
         self.marionette.switch_to_frame()
         
@@ -47,16 +47,17 @@ class WpaEap(Base):
         
     def join(self):
         ok_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="ok"]')
-        ok_button = self.wait_for_element_present(*ok_locator)
-        ok_button.tap()
+        self.wait_for_element_displayed(*ok_locator)
+        ok_locator_element = self.marionette.find_element(*ok_locator)
+        ok_locator_element.tap()
         
         time.sleep(6)
         
     def getActiveNetworkName(self):        
         _connected_message_locator_network = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         activeNetwork=''
-        try:
-            self.wait_for_element_present(*_connected_message_locator_network)
+        try:            
+            self.wait_for_element_displayed(*_connected_message_locator_network)
             _connected_network_name = self.marionette.find_element(*_connected_message_locator_network)
             activeNetwork =  _connected_network_name.text
         except Exception:
@@ -79,7 +80,7 @@ class WpaEap(Base):
     def selectServerCertificate(self, certName):
         _server_cert_locator = (By.CSS_SELECTOR, 'p[data-l10n-id="server-certificate"]+span[class="button icon icon-dialog"]')
         self.wait_for_element_displayed(*_server_cert_locator)
-        self.wait_for_element_present(*_server_cert_locator).tap()
+        self.marionette.find_element(*_server_cert_locator).tap()        
                
         self.marionette.switch_to_frame()
         
@@ -90,12 +91,12 @@ class WpaEap(Base):
     def forgetNetwork(self,networkName):
         #forget wifi network
         _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
-        self.wait_for_element_present(*_connected_network_locator)
+        self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
         
         _forget_network_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="forget"]')
         self.wait_for_element_displayed(*_forget_network_locator)
-        self.wait_for_element_present(*_forget_network_locator).tap()
+        self.marionette.find_element(*_forget_network_locator).tap()
         
     def selectOptions(self,optionName):
         options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
@@ -112,6 +113,61 @@ class WpaEap(Base):
         
         #click OK
         _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
-        _ok_button_eap = self.wait_for_element_present(*_ok_select_auth)        
-        _ok_button_eap.tap()
-    
+        self.wait_for_element_displayed(*_ok_select_auth)
+        self.marionette.find_element(*_ok_select_auth).tap()
+
+class SrvCertOp(Base):
+    def importSrvCert(self,name):
+        #tap manage certificate button
+        mng_cert_locator = (By.CSS_SELECTOR, '#manageCertificates')
+        self.wait_for_element_displayed(*mng_cert_locator)        
+        self.marionette.find_element(*mng_cert_locator).tap()        
+        
+        #tap import certificate button
+        imp_cert_locator = (By.CSS_SELECTOR, '#importCertificate')
+        self.wait_for_element_displayed(*imp_cert_locator)        
+        self.marionette.find_element(*imp_cert_locator).tap()        
+        
+        #select 1st item from the list
+        cert_item_locator = ('xpath', "//li/a[text()='%s']" % name)
+        self.wait_for_element_displayed(*cert_item_locator)        
+        self.marionette.find_element(*cert_item_locator).tap()
+        
+        #click done for importing        
+        _cert_done_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="done"]')
+        self.wait_for_element_displayed(*_cert_done_locator)        
+        self.marionette.find_element(*_cert_done_locator).tap()        
+                       
+        #choose certificate 
+        _cert_item_checkbox_locator = ('xpath', "//ul/li/label/span[text()='%s']" % name)
+        self.wait_for_element_displayed(*_cert_item_checkbox_locator)
+      
+        time.sleep(3)
+        
+        #go back to wifi settings
+        _back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates span[data-l10n-id="back"]')
+        self.wait_for_element_displayed(*_back_locator)        
+        self.marionette.find_element(*_back_locator).tap()
+        
+    def deleteSrvCert(self,name):
+                
+        #tap manage certificate button
+        mng_cert_locator = (By.CSS_SELECTOR, '#manageCertificates')
+        self.wait_for_element_displayed(*mng_cert_locator)        
+        self.marionette.find_element(*mng_cert_locator).tap()        
+        
+        #choose certificate 
+        _cert_item_checkbox_locator = ('xpath', "//ul/li/label/span[text()='%s']" % name)
+        self.wait_for_element_displayed(*_cert_item_checkbox_locator)
+        self.marionette.find_element(*_cert_item_checkbox_locator).tap()        
+        
+        #click delete button
+        _del_cert_locator = (By.CSS_SELECTOR, '#deleteCertificate')
+        self.wait_for_element_displayed(*_del_cert_locator)
+        self.marionette.find_element(*_del_cert_locator).tap()        
+        
+        #go back to wifi settings
+        _back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates span[data-l10n-id="back"]')
+        self.wait_for_element_displayed(*_back_locator)        
+        self.marionette.find_element(*_back_locator).tap()
+        
