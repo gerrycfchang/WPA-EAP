@@ -141,6 +141,7 @@ class SrvCertOp(Base):
         #choose certificate 
         _cert_item_checkbox_locator = ('xpath', "//ul/li/label/span[text()='%s']" % name)
         self.wait_for_element_displayed(*_cert_item_checkbox_locator)
+        self.marionette.find_element(*_cert_item_checkbox_locator)
       
         time.sleep(3)
         

@@ -2,6 +2,8 @@ from gaiatest import GaiaTestCase
 from gaiatest.apps.settings.app import Settings
 from marionette.by import By
 import sys
+import subprocess
+import time
 
 class TestWpaWlan(GaiaTestCase):       
     
@@ -9,6 +11,8 @@ class TestWpaWlan(GaiaTestCase):
         GaiaTestCase.setUp(self)  
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
+        subprocess.Popen(["sh","./prepareEnv.sh"])   
+        time.sleep(2)
         
     def test_enable_wifi(self):
         settings = Settings(self.marionette)
@@ -22,6 +26,9 @@ class TestWpaWlan(GaiaTestCase):
             wifiObj.enable_wifi()
             
         import WPA
+        srvObj = WPA.SrvCertOp(self.marionette)
+        srvObj.importSrvCert('gogogo')
+        
         wpaObj = WPA.WpaEap(self.marionette)
         wpaObj.selectWPANetwork('TPE_QA')
         wpaObj.selectEAPMethod('PEAP')
@@ -32,3 +39,5 @@ class TestWpaWlan(GaiaTestCase):
                 
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertNotEqual(networkStatus, 'Connected')
+        
+        srvObj.deleteSrvCert('gogogo')

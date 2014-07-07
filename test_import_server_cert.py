@@ -11,12 +11,11 @@ class TestWpaWlan(GaiaTestCase):
         GaiaTestCase.setUp(self)
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
-
-    def test_enable_wifi(self):
         #copy certs into sdcard
         subprocess.Popen(["sh","./prepareEnv.sh"])   
         time.sleep(1)
-        
+
+    def test_enable_wifi(self):
         settings = Settings(self.marionette)
         settings.launch()
         wifiObj = settings.open_wifi_settings()
