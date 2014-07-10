@@ -9,9 +9,10 @@ class TestWpaWlan(GaiaTestCase):
     
     def setUp(self):
         GaiaTestCase.setUp(self)
+        
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
-        subprocess.Popen(["sh","./prepareEnv.sh"])   
+        subprocess.Popen(["sh","./tests/functional/WPA-EAP/prepareEnv.sh"])   
         time.sleep(2)
 
     def test_enable_wifi(self):
@@ -24,7 +25,7 @@ class TestWpaWlan(GaiaTestCase):
         
         checkbox = self.marionette.find_element(*_wifi_enabled_checkbox_locator)
         if not checkbox.is_selected():
-            wifiObj.enable_wifi()
+            wifiObj.enable_wifi()            
         
         import WPA
         srvObj = WPA.SrvCertOp(self.marionette)

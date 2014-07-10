@@ -11,7 +11,7 @@ class TestWpaWlan(GaiaTestCase):
         GaiaTestCase.setUp(self)
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
-        subprocess.Popen(["sh","./prepareEnv.sh"])   
+        subprocess.Popen(["sh","./tests/functional/WPA-EAP/prepareEnv.sh"])   
         time.sleep(2)
 
     def test_enable_wifi(self):

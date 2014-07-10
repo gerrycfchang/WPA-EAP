@@ -12,7 +12,7 @@ class TestWpaWlan(GaiaTestCase):
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
         #copy certs into sdcard
-        subprocess.Popen(["sh","./prepareEnv.sh"])   
+        subprocess.Popen(["sh","./tests/functional/WPA-EAP/prepareEnv.sh"])   
         time.sleep(1)
 
     def test_enable_wifi(self):
