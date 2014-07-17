@@ -45,5 +45,5 @@ class TestWpaWlan(GaiaTestCase):
         self.assertEqual(networkStatus, 'Connected')
                 
         #forget wifi network
-        wpaObj.forgetNetwork('TPE_QA')
         srvObj.deleteSrvCert('cacert')
+        wpaObj.forgetNetwork('TPE_QA')        

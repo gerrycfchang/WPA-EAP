@@ -96,7 +96,8 @@ class WpaEap(Base):
         
         _forget_network_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="forget"]')
         self.wait_for_element_displayed(*_forget_network_locator)
-        self.marionette.find_element(*_forget_network_locator).tap()
+        _forget_button = self.marionette.find_element(*_forget_network_locator)
+        _forget_button.tap()
         
     def selectOptions(self,optionName):
         options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
@@ -136,19 +137,24 @@ class SrvCertOp(Base):
         #click done for importing        
         _cert_done_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="done"]')
         self.wait_for_element_displayed(*_cert_done_locator)        
-        self.marionette.find_element(*_cert_done_locator).tap()        
+        self.marionette.find_element(*_cert_done_locator).tap()
+        
+        time.sleep(3)        
                        
+        self.marionette.get_active_frame()
+        
         #choose certificate 
-        _cert_item_checkbox_locator = ('xpath', "//ul/li/label/span[text()='%s']" % name)
-        self.wait_for_element_displayed(*_cert_item_checkbox_locator)
-        self.marionette.find_element(*_cert_item_checkbox_locator)
-      
-        time.sleep(3)
+        #_cert_item_checkbox_locator = ('xpath', "//ul/li/label/span[text()='%s']" % name)
+        #self.wait_for_element_displayed(*_cert_item_checkbox_locator)
+        #self.marionette.find_element(*_cert_item_checkbox_locator)
         
         #go back to wifi settings
-        _back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates span[data-l10n-id="back"]')
+        #_back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates span[data-l10n-id="back"]')
+        _back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates button[type="reset"]')
         self.wait_for_element_displayed(*_back_locator)        
-        self.marionette.find_element(*_back_locator).tap()
+        _back_button = self.marionette.find_element(*_back_locator)
+        _back_button.tap()
+
         
     def deleteSrvCert(self,name):
                 
@@ -170,5 +176,6 @@ class SrvCertOp(Base):
         #go back to wifi settings
         _back_locator = (By.CSS_SELECTOR, '#wifi-manageCertificates span[data-l10n-id="back"]')
         self.wait_for_element_displayed(*_back_locator)        
-        self.marionette.find_element(*_back_locator).tap()
+        _back_button = self.marionette.find_element(*_back_locator)
+        _back_button.tap()
         

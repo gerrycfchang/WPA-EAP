@@ -8,8 +8,7 @@ import time
 class TestWpaWlan(GaiaTestCase):       
     
     def setUp(self):
-        GaiaTestCase.setUp(self)
-        
+        GaiaTestCase.setUp(self)        
         sys.path.append("./")
         sys.path.append("./tests/functional/WPA-EAP")
         subprocess.Popen(["sh","./tests/functional/WPA-EAP/prepareEnv.sh"])   
@@ -47,5 +46,5 @@ class TestWpaWlan(GaiaTestCase):
         self.assertEqual(networkStatus, 'Connected')
                 
         #forget wifi network
-        wpaObj.forgetNetwork('TPE_QA')
         srvObj.deleteSrvCert('cacert')
+        wpaObj.forgetNetwork('TPE_QA')        
