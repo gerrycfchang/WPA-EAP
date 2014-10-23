@@ -1,6 +1,4 @@
 from gaiatest import GaiaTestCase
-from gaiatest.apps.settings.app import Settings
-from marionette.by import By
 import sys,time
 
 class TestWpaWlan(GaiaTestCase):       
@@ -11,6 +9,7 @@ class TestWpaWlan(GaiaTestCase):
         sys.path.append("./tests/functional/WPA-EAP")
 
     def test_enable_wifi(self):
+        '''
         settings = Settings(self.marionette)
         settings.launch()
         wifiObj = settings.open_wifi_settings()
@@ -20,24 +19,27 @@ class TestWpaWlan(GaiaTestCase):
         checkbox = self.marionette.find_element(*_wifi_enabled_checkbox_locator)
         if not checkbox.is_selected():
             wifiObj.enable_wifi()        
- 
+        '''
         import WPA
         wpaObj = WPA.WpaEap(self.marionette)
-        for x in range(2):
-            wpaObj.selectWPANetwork('TPE_QA')
+        wpaObj.enableWifi()
+        for x in range(10):
+            wpaObj.selectWPANetwork(self.testvars['wifi']['PEAP']['ssid'])
             wpaObj.selectEAPMethod('PEAP')        
-            wpaObj.inputIdentity('sqa')
-            wpaObj.inputPassword('password')
+            wpaObj.inputIdentity(self.testvars['wifi']['PEAP']['username'])
+            wpaObj.inputPassword(self.testvars['wifi']['PEAP']['password'])
             wpaObj.join()                
         
-            networkName = wpaObj.getActiveNetworkName()        
-            self.assertEqual(networkName, 'TPE_QA')        
+            networkName = wpaObj.getActiveNetworkName()
+            
+            #v2.0
+            #self.assertEqual(networkName, 'TPE_QA')
         
-            networkStatus = wpaObj.getActiveNetworkStatus()
-            self.assertEqual(networkStatus, 'Connected')
-                
+            #v2.1
+            self.assertIn(self.testvars['wifi']['PEAP']['ssid'],networkName)
+
             #forget wifi network
-            wpaObj.forgetNetwork('TPE_QA')
+            wpaObj.forgetNetwork(self.testvars['wifi']['PEAP']['ssid'])
         
             time.sleep(3)
         

@@ -1,6 +1,4 @@
 from gaiatest import GaiaTestCase
-from gaiatest.apps.settings.app import Settings
-from marionette.by import By
 import sys,time
 
 class TestWpaWlan(GaiaTestCase):       
@@ -11,26 +9,24 @@ class TestWpaWlan(GaiaTestCase):
         sys.path.append("./tests/functional/WPA-EAP")
 
     def test_enable_wifi(self):
-        settings = Settings(self.marionette)
-        settings.launch()
-        wifiObj = settings.open_wifi_settings()
-        
-        _wifi_enabled_checkbox_locator = (By.CSS_SELECTOR, '#wifi-enabled input')
-        
-        checkbox = self.marionette.find_element(*_wifi_enabled_checkbox_locator)
-        if not checkbox.is_selected():
-            wifiObj.enable_wifi()        
-       
+
         import WPA
         wpaObj = WPA.WpaEap(self.marionette)
-        wpaObj.selectWPANetwork('Mozilla Guest')
+        wpaObj.enableWifi()
+        wpaObj.selectWPANetwork(self.testvars['wifi']['ssid'])
         time.sleep(3)                
       
-        networkName = wpaObj.getActiveNetworkName()        
+        
+        networkName = wpaObj.getActiveNetworkName()
+        ''' v2.0
         self.assertEqual(networkName, 'Mozilla Guest')
       
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertEqual(networkStatus, 'Connected')
+        '''
+        
+        #v2.1
+        self.assertIn(self.testvars['wifi']['ssid'],networkName)
                 
         #forget wifi network
-        wpaObj.forgetNetwork('Mozilla Guest')
+        wpaObj.forgetNetwork(self.testvars['wifi']['ssid'])
