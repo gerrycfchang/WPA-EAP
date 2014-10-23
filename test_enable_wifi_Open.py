@@ -1,5 +1,5 @@
 from gaiatest import GaiaTestCase
-import sys
+import sys,time
 
 class TestWpaWlan(GaiaTestCase):       
     
@@ -9,24 +9,24 @@ class TestWpaWlan(GaiaTestCase):
         sys.path.append("./tests/functional/WPA-EAP")
 
     def test_enable_wifi(self):
+
         import WPA
         wpaObj = WPA.WpaEap(self.marionette)
         wpaObj.enableWifi()
-        wpaObj.selectWPANetwork(self.testvars['wifi']['PEAP']['ssid'])
-        wpaObj.selectEAPMethod('PEAP')
-        wpaObj.inputIdentity(self.testvars['wifi']['PEAP']['username'])
-        wpaObj.inputPassword(self.testvars['wifi']['PEAP']['password'])
-        wpaObj.join()
+        wpaObj.selectWPANetwork(self.testvars['wifi']['ssid'])
+        time.sleep(3)                
+      
         
         networkName = wpaObj.getActiveNetworkName()
-        #v2.0
-        #self.assertEqual(networkName, 'TPE_QA')
-        
-        #v2.1
-        self.assertIn(self.testvars['wifi']['PEAP']['ssid'],networkName)
-        
+        ''' v2.0
+        self.assertEqual(networkName, 'Mozilla Guest')
+      
         networkStatus = wpaObj.getActiveNetworkStatus()
         self.assertEqual(networkStatus, 'Connected')
+        '''
+        
+        #v2.1
+        self.assertIn(self.testvars['wifi']['ssid'],networkName)
                 
         #forget wifi network
-        wpaObj.forgetNetwork(self.testvars['wifi']['PEAP']['ssid'])
+        wpaObj.forgetNetwork(self.testvars['wifi']['ssid'])
