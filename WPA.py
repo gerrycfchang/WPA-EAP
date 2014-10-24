@@ -249,9 +249,11 @@ class WpaEap(Base):
             raise Exception(errorMsg)
 
         #click OK
-        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
-        self.wait_for_element_displayed(*_ok_select_auth)
-        self.marionette.find_element(*_ok_select_auth).tap()
+        m = self.marionette
+        for item in m.find_elements(By.CSS_SELECTOR, 'button.value-option-confirm'):
+            if item.is_displayed() == True:
+                item.tap()
+                break
 
 class SrvCertOp(Base):
     def importSrvCert(self,name):
