@@ -9,10 +9,10 @@ class WpaEap(Base):
         settings.launch()
         wifiObj = settings.open_wifi_settings()
         #v2.0
-        #_wifi_enabled_checkbox_locator = (By.CSS_SELECTOR, '#wifi-enabled input')
+        _wifi_enabled_checkbox_locator = (By.CSS_SELECTOR, 'li > label[class="pack-switch"]')
         
         #v2.1
-        _wifi_enabled_checkbox_locator = (By.CSS_SELECTOR, 'li > label > input[type="checkbox"]')
+        #_wifi_enabled_checkbox_locator = (By.CSS_SELECTOR, 'li > label > input[type="checkbox"]')
         
         checkbox = self.marionette.find_element(*_wifi_enabled_checkbox_locator)
         if not checkbox.is_selected():
@@ -21,10 +21,10 @@ class WpaEap(Base):
     def selectWPANetwork(self,networkName):
         # select WPA-EAP network from available networks
         #v2.0        
-        #this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)
+        this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)
         
         #v2.1
-        this_network_locator = ('xpath', "//li/a/span[text()='%s']" % networkName)        
+        #this_network_locator = ('xpath', "//li/a/span[text()='%s']" % networkName)        
         self.wait_for_element_displayed(*this_network_locator)
         display_item = self.marionette.find_element(*this_network_locator)
         self.marionette.execute_script("arguments[0].scrollIntoView(false);", [display_item])
@@ -79,10 +79,10 @@ class WpaEap(Base):
         
     def getActiveNetworkName(self):        
         #v2.0
-        #_connected_message_locator_network = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
+        _connected_message_locator_network = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         
         #v2.1
-        _connected_message_locator_network = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
+        #_connected_message_locator_network = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
         activeNetwork=''
         try:            
             self.wait_for_element_displayed(*_connected_message_locator_network)
@@ -98,9 +98,9 @@ class WpaEap(Base):
         activeNetworkStatus = ''
         try:
             #v2.0
-            #_connected_message_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
+            _connected_message_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
             #v2.1
-            _connected_message_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active small')
+            #_connected_message_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active small')
             self.wait_for_element_displayed(*_connected_message_locator)
             _connected_network_status = self.marionette.find_element(*_connected_message_locator)
             activeNetworkStatus = _connected_network_status.text
@@ -122,10 +122,10 @@ class WpaEap(Base):
         
     def getStatusSecurityMethod(self):
         #v2.0
-        #_connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
+        _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         
         #v2.1
-        _connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
+        #_connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
         self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
         
@@ -143,10 +143,10 @@ class WpaEap(Base):
     
     def getStatusSignalStrengh(self):
         #v2.0
-        #_connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
+        _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         
         #v2.1
-        _connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
+        #_connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
         
         self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
@@ -165,10 +165,10 @@ class WpaEap(Base):
     
     def getStatusIP(self):
         #v2.0
-        #_connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
+        _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         
         #v2.1
-        _connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
+        #_connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
         
         self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
@@ -187,10 +187,10 @@ class WpaEap(Base):
     
     def getStatusSpeed(self):
         #v2.0
-        #_connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
+        _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active a')
         
         #v2.1
-        _connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
+        #_connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active a')
         
         self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
@@ -210,9 +210,9 @@ class WpaEap(Base):
     def forgetNetwork(self,networkName):
         #forget wifi network
         #v2.0
-        #_connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
+        _connected_network_locator = (By.CSS_SELECTOR, '#wifi-availableNetworks li.active small')
         #v2.1
-        _connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active small')
+        #_connected_network_locator = (By.CSS_SELECTOR, 'ul.wifi-availableNetworks li.active small')
         
         self.wait_for_element_displayed(*_connected_network_locator)
         self.marionette.find_element(*_connected_network_locator).tap()
@@ -223,20 +223,20 @@ class WpaEap(Base):
         _forget_button.tap()
         
         #v2.0
-        #this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)
+        this_network_locator = ('xpath', "//li/a[text()='%s']" % networkName)
         
         #v2.1
-        this_network_locator = ('xpath', "//li/a/span[text()='%s']" % networkName)
+        #this_network_locator = ('xpath', "//li/a/span[text()='%s']" % networkName)
         self.wait_for_element_displayed(*this_network_locator)
         self.marionette.find_element(*this_network_locator)
         #self.marionette.execute_script("arguments[0].scrollIntoView(false);", [display_item])
         
     def selectOptions(self,optionName):
         #v2.0
-        #options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
+        options = self.marionette.find_elements(By.CSS_SELECTOR, '#value-selector-container li')
         
         #.v2.1
-        options = self.marionette.find_elements(By.CSS_SELECTOR, 'ol[class="value-selector-options-container"] > li')
+        #options = self.marionette.find_elements(By.CSS_SELECTOR, 'ol[class="value-selector-options-container"] > li')
 
         certTap = False
         for li in options:
@@ -249,11 +249,17 @@ class WpaEap(Base):
             raise Exception(errorMsg)
 
         #click OK
-        m = self.marionette
-        for item in m.find_elements(By.CSS_SELECTOR, 'button.value-option-confirm'):
-            if item.is_displayed() == True:
-                item.tap()
-                break
+        # v2.0
+        _ok_select_auth = (By.CSS_SELECTOR, 'button.value-option-confirm')
+        self.wait_for_element_displayed(*_ok_select_auth)
+        self.marionette.find_element(*_ok_select_auth).tap()
+        
+        # v2.1
+        #m = self.marionette
+        #for item in m.find_elements(By.CSS_SELECTOR, 'button.value-option-confirm'):
+        #    if item.is_displayed() == True:
+        #        item.tap()
+        #        break
 
 class SrvCertOp(Base):
     def importSrvCert(self,name):
